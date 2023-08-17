@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
@@ -81,8 +81,7 @@ namespace ThrowBallModel_MRTK
         [EditorButton]
         private void Test()
         {
-            Debug.Log(GetLinePointer(trackedController));
-            trackedController = GetTrackedController(solverHandler.CurrentTrackedHandedness);
+            
             
            
         }
@@ -93,17 +92,25 @@ namespace ThrowBallModel_MRTK
             {
                 Test();
             }
-            //∞Oø˝≥o∞w≤y™∫solver¶≥®S¶≥ß@•Œ
+            //Ë®òÈåÑÈÄôÈáùÁêÉÁöÑsolverÊúâÊ≤íÊúâ‰ΩúÁî®
             bool isTracked = IsTracking;
-            //¶p™Gsolver ±q  ¶≥ß@•Œ->®Sß@•Œ ©M ®Sß@•Œ->¶≥ß@•Œ™∫±°™p≥]©w trackedController ©M trackedLinePointer
-            if (wasTracked != IsTracking)
-            {
-                Debug.Log("§¡¥´");
-                trackedController = isTracked ? GetTrackedController(solverHandler.CurrentTrackedHandedness) : null;
-                trackedLinePointer = isTracked ? GetLinePointer(trackedController) : null;
-                wasTracked = isTracked;
-            }
-           
+            var newController = GetTrackedController(solverHandler.CurrentTrackedHandedness);
+            //if (trackedController != newController)
+            //{
+            //   if(newController == null)
+            //    {
+            //        Debug.Log("null");
+
+            //    }
+            //    else
+            //    {
+            //        Debug.Log(newController.ControllerHandedness);
+            //    }
+            //}
+            trackedController = isTracked ? GetTrackedController(solverHandler.CurrentTrackedHandedness) : null;
+              
+      
+          
             
             if (isTracked)
             {
@@ -135,9 +142,7 @@ namespace ThrowBallModel_MRTK
         }
         private void Fire()
         {
-
-            trackedController = IsTracking ? GetTrackedController(solverHandler.CurrentTrackedHandedness) : null;
-            trackedLinePointer = IsTracking ? GetLinePointer(trackedController) : null;
+            trackedLinePointer =  GetLinePointer(trackedController);
             if (trackedLinePointer != null)
             {
                 var forceVector = TrackedPointerDirection * PowerUpForce;
@@ -149,8 +154,9 @@ namespace ThrowBallModel_MRTK
         #region IMixedRealityInputHandler implementation
         public void OnInputDown(InputEventData eventData)
         {
-            //IsTrackingSource(eventData.SourceId) •ÿ´e¥˙∏’§@©w¨Ofalse°Aæ…≠PµL™k∂}§ı°Aµ•¶≥πÍ≈Èæ˜´·¶A∞µπ¡∏’
-            if (/*IsTrackingSource(eventData.SourceId) &&*/
+
+          
+            if (IsTrackingSource(eventData.SourceId) && 
                    eventData.MixedRealityInputAction.Description == nameof(DeviceInputType.Select))
             {
                 if (CurrebtState == OrbState.SourceTracked)
@@ -164,9 +170,8 @@ namespace ThrowBallModel_MRTK
 
         public void OnInputUp(InputEventData eventData)
         {
-            //IsTrackingSource(eventData.SourceId) •ÿ´e¥˙∏’§@©w¨Ofalse°Aæ…≠PµL™k∂}§ı°Aµ•¶≥πÍ≈Èæ˜´·¶A∞µπ¡∏’
-
-            if (/*IsTrackingSource(eventData.SourceId) &&*/
+          
+            if (IsTrackingSource(eventData.SourceId) &&
                 eventData.MixedRealityInputAction.Description == nameof(DeviceInputType.Select))
             {
                 if (CurrebtState == OrbState.SourceTracked)
@@ -203,14 +208,14 @@ namespace ThrowBallModel_MRTK
         {
            if(controller == null)
             {
-                Debug.LogError("ß‰§£®ÏGetLinePointer");
+                Debug.LogError("Êâæ‰∏çÂà∞GetLinePointer");
                 return null;
             }
             else
             {
-                Debug.Log("¶≥ß‰®ÏGetLinePointer");
+                //Debug.Log("ÊúâÊâæÂà∞GetLinePointer");
             }
-            Debug.Log(controller.InputSource.Pointers.Length);
+          
             foreach (var pointer in controller?.InputSource.Pointers)
             {
                 
